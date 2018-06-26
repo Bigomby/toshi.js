@@ -1,0 +1,20 @@
+language: node_js
+
+notifications:
+  email: false
+
+branches:
+  only:
+    - master
+    - develop
+
+node_js:
+  - --lts
+  - stable
+
+install:
+  - npm install
+
+script:
+  - npm build
+  - npm test
