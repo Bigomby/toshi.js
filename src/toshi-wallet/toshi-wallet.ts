@@ -20,7 +20,7 @@ export class ToshiWallet {
     return new ToshiWallet(wallet);
   }
 
-  public static fromPrivateKey(privateKey: Buffer) {
+  public static fromPrivateKey(privateKey: Buffer | string) {
     const wallet = HDWallet.fromPrivateKey(privateKey);
 
     return new ToshiWallet(wallet);

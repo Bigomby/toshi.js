@@ -1,3 +1,3 @@
-import { Identity } from './identity';
+import { Identity } from './Identity';
 
 export { Identity };
