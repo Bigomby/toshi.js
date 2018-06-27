@@ -2,14 +2,12 @@ import axios, { AxiosRequestConfig } from 'axios';
 import { Wallet } from '../wallet';
 import { keccak256 } from 'js-sha3';
 
-export type AxiosInterceptor = (
-  config: AxiosRequestConfig,
-) => AxiosRequestConfig;
+export type Interceptor = (config: AxiosRequestConfig) => AxiosRequestConfig;
 
 export class RequestSigner {
   constructor(private readonly wallet: Wallet) {}
 
-  public getInterceptor(): AxiosInterceptor {
+  public getInterceptor(): Interceptor {
     return (config: AxiosRequestConfig): AxiosRequestConfig => {
       const timestamp = this.getUnixTimestamp(Date.now());
       const payload = this.buildPayload(

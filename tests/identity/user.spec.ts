@@ -8,12 +8,9 @@ import { RequestSigner } from '../../src/request-signer';
 
 describe('User', () => {
   const wallet = Wallet.fromMnemonic(Fixtures.mnemonic);
-
   const signer = new RequestSigner(wallet);
+  const { user: User } = new Identity(signer, { url: Fixtures.baseUrl });
 
-  const { user: User } = new Identity(signer.getInterceptor(), {
-    url: Fixtures.baseUrl,
-  });
   tk.freeze(new Date(Fixtures.time));
 
   it('Get user info', async () => {
