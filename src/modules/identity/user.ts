@@ -1,6 +1,7 @@
 import { AxiosInstance } from 'axios';
 
-import { IUser, ICreateUser, IUpdateUser } from './interfaces/User.interface';
+import { IUser, ICreateUser, IUpdateUser } from './interfaces/user.interface';
+import { ServiceClient } from '../../service-client';
 
 export class User {
   constructor(private readonly http: AxiosInstance) {}

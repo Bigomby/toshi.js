@@ -1,4 +1,5 @@
-import { Identity } from './identity';
-import { ToshiWallet } from './toshi-wallet';
+import { Identity } from './modules/identity';
+import { Chat } from './modules/chat';
+import { Wallet } from './wallet';
 
-export { Identity, ToshiWallet };
+export { Identity, Wallet, Chat };

@@ -1,44 +1,27 @@
-import { ToshiWallet } from '../../src/toshi-wallet';
+import { Wallet } from '../../src/wallet';
 
 const MNEMONIC =
   'false hen huge trumpet begin lyrics power daring zebra danger tonight gold';
 const ADDRESS = '0xcab1bf54c25f2cb1e9da715d2f453aeb0dc33fc2';
 
-describe('Toshi Wallet', () => {
+describe('Wallet', () => {
   it('should create Wallet from valid mnemonic', () => {
-    expect(() => ToshiWallet.fromMnemonic(MNEMONIC)).not.toThrow();
+    expect(() => Wallet.fromMnemonic(MNEMONIC)).not.toThrow();
   });
 
-  it('Fail to create ToshiWallet from invalid mnemonic', () => {
-    expect(() =>
-      ToshiWallet.fromMnemonic('all your base are belong to us'),
-    ).toThrow('Invalid BIP39 mnemonic');
+  it('Fail to create Wallet from invalid mnemonic', () => {
+    expect(() => Wallet.fromMnemonic('all your base are belong to us')).toThrow(
+      'Invalid BIP39 mnemonic',
+    );
   });
 
   it('should get address from wallet', () => {
-    const wallet = ToshiWallet.fromMnemonic(MNEMONIC);
+    const wallet = Wallet.fromMnemonic(MNEMONIC);
     expect(wallet.getAddress()).toEqual(ADDRESS);
   });
 
-  it('should build payload', () => {
-    const wallet = ToshiWallet.fromMnemonic(MNEMONIC);
-
-    const body =
-      '{"custom": {"name": "Mr Tester", "avatar": "https://s3.amazonaws.com/testuser/profile.jpg"}}';
-    const payload = ToshiWallet.buildPayload(
-      body,
-      'POST',
-      '/v1/user',
-      1480078657,
-    );
-
-    expect(payload).toEqual(
-      'POST\n/v1/user\n1480078657\nto5m3Kmk6z9OZI/Kb+/yabcfDKl47nSuspAtxnFaQsA=',
-    );
-  });
-
   it('should sign payload', () => {
-    const wallet = ToshiWallet.fromMnemonic(MNEMONIC);
+    const wallet = Wallet.fromMnemonic(MNEMONIC);
     const payload =
       'POST\n/v1/user\n1480078657\nto5m3Kmk6z9OZI/Kb+/yabcfDKl47nSuspAtxnFaQsA=';
     const signature = wallet.signPayload(payload);

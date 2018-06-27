@@ -3,11 +3,17 @@ import * as tk from 'timekeeper';
 import * as nock from 'nock';
 
 import Fixtures from '../fixtures';
-import { Identity, ToshiWallet } from '../../src';
+import { Identity, Wallet } from '../../src';
+import { RequestSigner } from '../../src/request-signer';
 
 describe('User', () => {
-  const wallet = ToshiWallet.fromMnemonic(Fixtures.mnemonic);
-  const { user: User } = new Identity(wallet, { url: Fixtures.baseUrl });
+  const wallet = Wallet.fromMnemonic(Fixtures.mnemonic);
+
+  const signer = new RequestSigner(wallet);
+
+  const { user: User } = new Identity(signer.getInterceptor(), {
+    url: Fixtures.baseUrl,
+  });
   tk.freeze(new Date(Fixtures.time));
 
   it('Get user info', async () => {
