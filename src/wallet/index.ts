@@ -1,6 +1,5 @@
 import { Buffer } from 'buffer';
 import { keccak256 } from 'js-sha3';
-import { RequestData } from './interfaces/request-data.interface';
 import * as secp256k1 from 'secp256k1';
 import * as HDkey from 'ethereumjs-wallet/hdkey';
 import * as HDWallet from 'ethereumjs-wallet';
