@@ -10,6 +10,10 @@ export class RequestSigner {
   public getInterceptor(): Interceptor {
     return (config: AxiosRequestConfig): AxiosRequestConfig => {
       const timestamp = this.getUnixTimestamp(Date.now());
+      if (!config.method || !config.url) {
+        throw Error('Missing method or URL');
+      }
+
       const payload = this.buildPayload(
         JSON.stringify(config.data),
         config.method.toUpperCase(),
