@@ -11,7 +11,7 @@ export interface ISignalStore<S> {
   saveLocalRegistrationId(registrationId: string): Promise<void>;
   isTrustedIdentity(id: string, identityKey: ArrayBuffer): Promise<Boolean>;
   loadIdentityKey(id: string): Promise<ArrayBuffer | undefined>;
-  saveIdentity(id: string, identityKey: ArrayBuffer);
+  saveIdentity(id: string, identityKey: ArrayBuffer): void;
   loadPreKey(id: string): Promise<ArrayBuffer | undefined>;
   storePreKey(id: string, keyPair: IKeyPair): void;
   removePreKey(id: string): void;
