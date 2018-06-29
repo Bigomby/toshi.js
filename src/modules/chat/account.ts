@@ -3,31 +3,42 @@ import { KeyHelper } from 'signal-protocol';
 import * as crypto from 'crypto';
 import * as Util from 'util';
 
+import { SignalAccount } from '../../signal-account';
+
 const randomBytes = Util.promisify(crypto.randomBytes);
 
 export class Account {
-  constructor(private readonly http: AxiosInstance) {}
+  constructor(
+    private readonly http: AxiosInstance,
+    private readonly signalAccount: SignalAccount,
+  ) {}
 
-  public async create(toshiId: string) {
-    const URL = '/v1/accounts';
-    const identityKeyPair = await KeyHelper.generateIdentityKeyPair();
-    const registrationId = KeyHelper.generateRegistrationId();
+  public async register(toshiId: string) {
+    const url = '/v1/accounts';
+    const headers = await this.generateAuthHeader(toshiId);
+    const accountAttributes = await this.generateAccountAttributes();
 
-    const passwordBuffer = await crypto.randomBytes(9);
-    const password = passwordBuffer.toString('hex');
-
-    const signalingKeyBuffer = await crypto.randomBytes(26);
-    const signalingKey = signalingKeyBuffer.toString('hex');
-
-    const authToken = Buffer.from(`${toshiId}:${password}`).toString('base64');
-    const Authorization = `Basic ${authToken}`;
-
-    const response = await this.http.put(
-      URL,
-      { signalingKey, registrationId, fetchesMessages: true },
-      { headers: { Authorization } },
-    );
+    const response = await this.http.put(url, accountAttributes, { headers });
 
     return response;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Private
+  // ---------------------------------------------------------------------------
+
+  private async generateAccountAttributes(): Promise<object> {
+    return {
+      signalingKey: await this.signalAccount.getSignalingKey(),
+      registrationId: await this.signalAccount.getRegistrationId(),
+      fetchesMessages: true,
+    };
+  }
+
+  private async generateAuthHeader(toshiId: string): Promise<object> {
+    const auth = Buffer.from(
+      `${toshiId}:${await this.signalAccount.getPassword()}`,
+    );
+    return { Authorization: `Basic ${auth.toString('base64')}` };
   }
 }
