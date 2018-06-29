@@ -63,4 +63,7 @@ typings/
 # vuepress build output
 .vuepress/dist
 
-dist/
+# Built modules
+esm5/
+lib/
+docs/

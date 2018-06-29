@@ -1,18 +1,24 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "declaration": false,
-    "removeComments": true,
-    "noLib": false,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "module": "esnext",
     "target": "es6",
+    "lib": ["dom", "es2018"],
+    "strict": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "forceConsistentCasingInFileNames": true,
     "sourceMap": true,
-    "allowJs": true,
-    "strictNullChecks": true,
-    "outDir": "./dist"
+    "outDir": "esm5",
+    "declaration": true,
+    "declarationMap": true,
+    "stripInternal": true,
+    "resolveJsonModule": true,
+    "importHelpers": true
   },
-  "compileOnSave": true,
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "**/*.spec.ts"]
+  "include": ["./src"],
+  "exclude": ["node_modules"],
+  "compileOnSave": false,
+  "buildOnSave": false
 }
